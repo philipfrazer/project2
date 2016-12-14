@@ -1,0 +1,20 @@
+<h1>Results Page</h1>
+
+<li><a href='/register'>Sign Up!</a></li>
+<li><a href='/login'>Login!</a></li>
+<li><a href='/logout'>Log Out!</a></li>
+
+<ul>
+  <% data["Search"].forEach(function(movie) { %>
+    <li>
+      <strong>
+        <%= movie["Title"]%>
+      </strong>
+        <img src=<%= movie["Poster"] %> >
+        <%= movie["imdbRating"]%><br>
+        <%= movie["Metascore"]%><br>
+    </li>
+  <% }) %>
+</ul>
+
+<a href="/search">Search Again!</a>
