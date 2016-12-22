@@ -1,8 +1,12 @@
-<h1>Results Page</h1>
+<head>
+  <% include partials/head %>
+</head>
 
-<li><a href='/register'>Sign Up!</a></li>
-<li><a href='/login'>Login!</a></li>
-<li><a href='/logout'>Log Out!</a></li>
+<header>
+  <% include partials/header %>
+</header>
+
+<h3>Search Results</h3>
 
 <ul>
   <% data["Search"].forEach(function(movie) { %>
@@ -10,11 +14,13 @@
       <strong>
         <%= movie["Title"]%>
       </strong>
+      <button action="/todos" method="post">Save</button><br>
         <img src=<%= movie["Poster"] %> >
-        <%= movie["imdbRating"]%><br>
-        <%= movie["Metascore"]%><br>
     </li>
   <% }) %>
 </ul>
 
-<a href="/search">Search Again!</a>
+<a href="/search" class="waves-effect waves-light btn">Search Again</a>
+<footer>
+  <% include partials/footer %>
+</footer>
