@@ -1,0 +1,26 @@
+<head>
+  <% include partials/head %>
+</head>
+
+<header>
+  <% include partials/header %>
+</header>
+
+<h3>Search Results</h3>
+
+<ul>
+  <% data["Search"].forEach(function(movie) { %>
+    <li>
+      <strong>
+        <%= movie["Title"]%>
+      </strong>
+      <button action="/home" method="post">Save</button><br>
+        <img src=<%= movie["Poster"] %> >
+    </li>
+  <% }) %>
+</ul>
+
+<a href="/search" class="waves-effect waves-light btn">Search Again</a>
+<footer>
+  <% include partials/footer %>
+</footer>
