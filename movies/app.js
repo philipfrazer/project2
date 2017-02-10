@@ -117,9 +117,43 @@ app.get('/home', function(req, res) {
   });
 });
 
-app.get('/', function(req, res) {
-  res.send('happy to be here');
+// I think this goes here...
+// app.post('/', function(req, res, next){
+//   console.log(req.body);
+//
+//   Movie.create({
+//     title: req.body.title,
+//     poster: req.body.poster,
+//
+//   }, function (err, song) {
+//     if(err) {
+//       res.send("something wrong happened"+ err)
+//     } else {
+//       res.redirect('/home');
+//     }
+//   });
+// });
+
+app.post('/', authenticate, function(req, res, next) {
+  var movie = new Movie({
+    user:      currentUser,
+    title:     req.body.title,
+    completed: req.body.completed ? true : false
+  });
+  movie.save()
+  .then(function() {
+    res.redirect('/home');
+  })
+  .catch(function(err) {
+    return next(err);
+  });
 });
+
+
+
+// app.get('/', function(req, res) {
+//   res.send('happy to be here');
+// });
 
 
 // catch 404 and forward to error handler
