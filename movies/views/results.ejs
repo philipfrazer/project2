@@ -16,10 +16,10 @@
       <form action="/" method="post">
 
           <label for="Title"><strong><%= movie["original_title"]%></strong></label><br>
-          <input type="hidden" name="title" value="<%= movie["Title"]%>">
+          <input type="hidden" name="original_title" value="<%= movie["original_title"]%>">
 
-          <label for="Poster"><img src=<%= movie["poster_path"] %> ></label><br>
-          <input type="hidden" name="poster" value="<%= movie["poster_paths"]%>">
+          <label for="Poster"><img src="https://image.tmdb.org/t/p/w500<%= movie["poster_path"]%>" ></label><br>
+          <input type="hidden" name="poster_path" value="<%= movie["poster_path"]%>">
 
           <button type="submit" class="waves-effect waves-light btn grey"> Save </button>
       </form>

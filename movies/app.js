@@ -55,7 +55,17 @@ app.get('/home', isLoggedIn, function(req, res){
   res.render('home');
 });
 
-//Auth Routes
+//Auth Routes & Auth function
+
+function authenticate(req, res, next) {
+    if(!req.isAuthenticated()) {
+        req.flash('error', 'Please signup or login.');
+        res.redirect('/');
+    } else {
+        next();
+    }
+}
+
 //Show sign up form
 app.get('/register', function(req, res){
   res.render('register');
@@ -102,47 +112,31 @@ function isLoggedIn(req, res, next){
     }
     res.redirect('/login');
 }
-
+// NOT WORKING
 //Get list of movies on /home page
-app.get('/home', function(req, res) {
-  console.log('getting all movies');
-  Movie.find({})
-    .exec(function(err, movies) {
-      if(err){
-        res.send('error has occured');
-      } else {
-        console.log(movies);
-        res.json(movies);
-      }
-  });
+app.get('/', function(req, res, next) {
+    Movie.find({})
+        .then(function(movies) {
+            res.render('home', {
+                movies: movies
+            });
+        })
+        .catch(function(err) {
+            return next(err);
+        });
 });
 
-// I think this goes here...
-// app.post('/', function(req, res, next){
-//   console.log(req.body);
-//
-//   Movie.create({
-//     title: req.body.title,
-//     poster: req.body.poster,
-//
-//   }, function (err, song) {
-//     if(err) {
-//       res.send("something wrong happened"+ err)
-//     } else {
-//       res.redirect('/home');
-//     }
-//   });
-// });
-
+// CREATE
 app.post('/', function(req, res, next) {
   var movie = new Movie({
-    user:      req.user,
-    title:     req.body.title,
-    completed: req.body.completed ? true : false
+    user:               req.user,
+    original_title:     req.body.original_title,
+    poster_path:        req.body.poster_path
+
   });
   movie.save()
-  .then(function() {
-    res.redirect('/home');
+    .then(function() {
+      res.redirect('/home');
   })
   .catch(function(err) {
     return next(err);
@@ -150,10 +144,40 @@ app.post('/', function(req, res, next) {
 });
 
 
+// DESTROY
+app.delete('/:id', function(req, res, next) {
+    Movie.findById(req.params.id)
+        .then(function(post) {
+            if (!movie.user.equals(currentUser.id)) return next(makeError(res, 'This does not belong to you!', 401));
+            return movie.remove();
+        })
+        .then(function() {
+            res.redirect('/home');
+        })
+        .catch(function(err) {
+            return next(err);
+        });
+});
 
-// app.get('/', function(req, res) {
-//   res.send('happy to be here');
-// });
+
+// SHOW
+
+app.get('/:id', function(req, res, next) {
+    Movie.findById(req.params.id)
+        .then(function(post) {
+            if (!movie) {
+                return next(makeError(res, 'Document not found', 404));
+            }
+            res.render('movies/show', {
+                movie: movie
+            });
+        })
+        .catch(function(err) {
+            return next(err);
+        });
+});
+
+
 
 
 // catch 404 and forward to error handler
