@@ -134,9 +134,9 @@ app.get('/home', function(req, res) {
 //   });
 // });
 
-app.post('/', authenticate, function(req, res, next) {
+app.post('/', function(req, res, next) {
   var movie = new Movie({
-    user:      currentUser,
+    user:      req.user,
     title:     req.body.title,
     completed: req.body.completed ? true : false
   });
