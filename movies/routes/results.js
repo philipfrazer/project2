@@ -12,12 +12,13 @@ function makeError(res, message, status) {
 
 router.get('/', function(req, res, next){
   var query = req.query.search;
-  var url = "http://omdbapi.com/?s=" + query;
+  var url = "https://api.themoviedb.org/3/search/movie?api_key=5af4fe3c28f23ccea03a3c2b662a4d29&query=" + query;
   debug('about to search omdbapi with url =', url);
 
   request(url, function(error, response, body){
     debug('got response from omdbapi');
     if (!error && response.statusCode == 200) {
+      // res.send(body);
       var data = JSON.parse(body);
       res.render("results", {data: data});
     }

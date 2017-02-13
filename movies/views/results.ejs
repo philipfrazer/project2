@@ -8,29 +8,18 @@
 
 <h3>Search Results</h3>
 
-<!-- <ul>
-  <% data["Search"].forEach(function(movie) { %>
-    <li>
-      <strong>
-        <%= movie["Title"]%>
-      </strong>
-      <button action="/home" method="post">Save</button><br>
-        <img src=<%= movie["Poster"] %> >
-    </li>
-  <% }) %>
-</ul> -->
 
 <!-- NEW TRIAL RENDER -->
 <ul>
-  <% data["Search"].forEach(function(movie) { %>
+  <% data["results"].forEach(function(movie) { %>
     <li>
       <form action="/" method="post">
 
-          <label for="Title"><strong><%= movie["Title"]%></strong></label><br>
+          <label for="Title"><strong><%= movie["original_title"]%></strong></label><br>
           <input type="hidden" name="title" value="<%= movie["Title"]%>">
 
-          <label for="Poster"><img src=<%= movie["Poster"] %> ></label><br>
-          <input type="hidden" name="poster" value="<%= movie["Poster"]%>">
+          <label for="Poster"><img src=<%= movie["poster_path"] %> ></label><br>
+          <input type="hidden" name="poster" value="<%= movie["poster_paths"]%>">
 
           <button type="submit" class="waves-effect waves-light btn grey"> Save </button>
       </form>
