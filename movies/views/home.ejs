@@ -16,7 +16,7 @@
 <% movies.forEach(function(movie) { %>
   <div>
     <h4><%= movie.original_title %></h4>
-    <h4><%= movie._id %></h4>
+    <h4><img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path %>" ></h4>
 
     <form method="post" action="/home/<%= movie._id %>?_method=DELETE">
     <button type="submit">delete</button>
