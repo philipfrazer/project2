@@ -3,6 +3,37 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
 a {
   color: #00B7FF;
+}
+nav {
+  background: dodgerblue;
+  opacity: 0.8;
+  max-width: 1025px;
+}
+
+body {
+  outline: 2px solid black;
+}
+
+.page-footer {
+  background: dodgerblue;
+
+}
+
+.btn1 {
+  background: dodgerblue;
+  opacity: 0.6;
+}
+
+.container{
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
 }

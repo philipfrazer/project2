@@ -6,7 +6,6 @@ var Movie =  require('../models/Movie');
 router.get('/', function(req, res){
   Movie.find({})
     .then(function(movies) {
-      console.log('FUUUUUUUUCK');
       console.log(movies);
       res.render('home', {
         movies: movies

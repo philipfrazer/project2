@@ -6,29 +6,27 @@
   <% include partials/header %>
 </header>
 
-<h3>Movie List</h3>
+<div class="container">
+  <div>
+  <h3>Movie List</h3>
 
-<a href="/search" class="btn btn-primary">Add A New Movie</a>
-
-<h1> fuck this </h1>
+<a href="/search" class="btn1 btn btn-primary">Add A New Movie</a>
 
 
 <% movies.forEach(function(movie) { %>
-  <div>
-    <h4><%= movie.original_title %></h4>
+    <h5><%= movie.original_title %></h5>
     <h4><img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path %>" ></h4>
 
     <form method="post" action="/home/<%= movie._id %>?_method=DELETE">
-    <button type="submit">delete</button>
+    <button class="btn1 btn btn-primary" type="submit">delete</button>
     </form>
-
-    <a href='/home/<%= movie._id %>' >LINK</a>
   </div>
+</div>
 <% }); %>
 
 
 
 
-<footer>
+<footer class="footer">
   <% include partials/footer %>
 </footer>

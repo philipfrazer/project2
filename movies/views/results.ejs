@@ -12,24 +12,29 @@
 <!-- NEW TRIAL RENDER -->
 <ul>
   <% data["results"].forEach(function(movie) { %>
-    <li>
-      <form action="/" method="post">
+    <div class="container">
+      <div>
+        <li>
+          <form action="/" method="post">
 
-          <label for="Title"><strong><%= movie["original_title"]%></strong></label><br>
-          <input type="hidden" name="original_title" value="<%= movie["original_title"]%>">
+              <label for="Title"><h5><%= movie["original_title"]%></h5></label><br>
+              <input type="hidden" name="original_title" value="<%= movie["original_title"]%>">
 
-          <label for="Poster"><img src="https://image.tmdb.org/t/p/w500<%= movie["poster_path"]%>" ></label><br>
-          <input type="hidden" name="poster_path" value="<%= movie["poster_path"]%>">
-
-          <button type="submit" class="waves-effect waves-light btn grey"> Save </button>
-      </form>
-    </li>
+              <label for="Poster"><img src="https://image.tmdb.org/t/p/w500<%= movie["poster_path"]%>" ></label><br>
+              <input type="hidden" name="poster_path" value="<%= movie["poster_path"]%>">
+              <br>
+              <button type="submit" class="btn1 btn waves-effect waves-light"> Save </button>
+          </form>
+        </li>
+      </div>
+    </div>
   <% }) %>
 </ul>
 
 
-
-<a href="/search" class="waves-effect waves-light btn">Search Again</a>
+<div class="container">
+  <a href="/search" class="btn1 btn waves-effect waves-light">Search Again</a>
+</div>
 <footer>
   <% include partials/footer %>
 </footer>
