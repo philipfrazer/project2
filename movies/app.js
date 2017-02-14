@@ -9,6 +9,7 @@ var mongoose              = require('mongoose');
 var passport              = require('passport');
 var LocalStrategy         = require('passport-local');
 var passportLocalMongoose = require('passport-local-mongoose');
+var methodOverride        = require('method-override');
 
 var index   = require('./routes/index');
 var User    = require('./models/user');
@@ -39,6 +40,7 @@ passport.deserializeUser(User.deserializeUser());
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(methodOverride('_method'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -46,14 +48,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 
-// app.use('/user', user);
+app.use('/home', home);
 app.use('/results', results);
 app.use('/search', search);
 
-//ROUTE - Home page
-app.get('/home', isLoggedIn, function(req, res){
-  res.render('home');
-});
+
+
 
 //Auth Routes & Auth function
 
@@ -94,6 +94,11 @@ app.get('/login', function(req, res){
 
 //login logic
 //middleware
+app.use(function (req, res, next) {
+    global.currentUser = req.user;
+    next();
+});
+
 app.post('/login', passport.authenticate('local', {
   successRedirect: '/home',
   failureRedirect: '/login'
@@ -112,19 +117,6 @@ function isLoggedIn(req, res, next){
     }
     res.redirect('/login');
 }
-// NOT WORKING
-//Get list of movies on /home page
-app.get('/', function(req, res, next) {
-    Movie.find({})
-        .then(function(movies) {
-            res.render('home', {
-                movies: movies
-            });
-        })
-        .catch(function(err) {
-            return next(err);
-        });
-});
 
 // CREATE
 app.post('/', function(req, res, next) {

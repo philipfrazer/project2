@@ -10,6 +10,22 @@
 
 <a href="/search" class="btn btn-primary">Add A New Movie</a>
 
+<h1> fuck this </h1>
+
+
+<% movies.forEach(function(movie) { %>
+  <div>
+    <h4><%= movie.original_title %></h4>
+    <h4><%= movie._id %></h4>
+
+    <form method="post" action="/home/<%= movie._id %>?_method=DELETE">
+    <button type="submit">delete</button>
+    </form>
+
+    <a href='/home/<%= movie._id %>' >LINK</a>
+  </div>
+<% }); %>
+
 
 
 
