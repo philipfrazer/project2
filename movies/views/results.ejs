@@ -8,17 +8,26 @@
 
 <h3>Search Results</h3>
 
+
+<!-- NEW TRIAL RENDER -->
 <ul>
-  <% data["Search"].forEach(function(movie) { %>
+  <% data["results"].forEach(function(movie) { %>
     <li>
-      <strong>
-        <%= movie["Title"]%>
-      </strong>
-      <button action="/home" method="post">Save</button><br>
-        <img src=<%= movie["Poster"] %> >
+      <form action="/" method="post">
+
+          <label for="Title"><strong><%= movie["original_title"]%></strong></label><br>
+          <input type="hidden" name="original_title" value="<%= movie["original_title"]%>">
+
+          <label for="Poster"><img src="https://image.tmdb.org/t/p/w500<%= movie["poster_path"]%>" ></label><br>
+          <input type="hidden" name="poster_path" value="<%= movie["poster_path"]%>">
+
+          <button type="submit" class="waves-effect waves-light btn grey"> Save </button>
+      </form>
     </li>
   <% }) %>
 </ul>
+
+
 
 <a href="/search" class="waves-effect waves-light btn">Search Again</a>
 <footer>

@@ -9,6 +9,7 @@ var mongoose              = require('mongoose');
 var passport              = require('passport');
 var LocalStrategy         = require('passport-local');
 var passportLocalMongoose = require('passport-local-mongoose');
+var methodOverride        = require('method-override');
 
 var index   = require('./routes/index');
 var User    = require('./models/user');
@@ -39,6 +40,7 @@ passport.deserializeUser(User.deserializeUser());
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(methodOverride('_method'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -46,16 +48,24 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 
-// app.use('/user', user);
+app.use('/home', home);
 app.use('/results', results);
 app.use('/search', search);
 
-//ROUTE - Home page
-app.get('/home', isLoggedIn, function(req, res){
-  res.render('home');
-});
 
-//Auth Routes
+
+
+//Auth Routes & Auth function
+
+function authenticate(req, res, next) {
+    if(!req.isAuthenticated()) {
+        req.flash('error', 'Please signup or login.');
+        res.redirect('/');
+    } else {
+        next();
+    }
+}
+
 //Show sign up form
 app.get('/register', function(req, res){
   res.render('register');
@@ -84,6 +94,11 @@ app.get('/login', function(req, res){
 
 //login logic
 //middleware
+app.use(function (req, res, next) {
+    global.currentUser = req.user;
+    next();
+});
+
 app.post('/login', passport.authenticate('local', {
   successRedirect: '/home',
   failureRedirect: '/login'
@@ -103,23 +118,58 @@ function isLoggedIn(req, res, next){
     res.redirect('/login');
 }
 
-//Get list of movies on /home page
-app.get('/home', function(req, res) {
-  console.log('getting all movies');
-  Movie.find({})
-    .exec(function(err, movies) {
-      if(err){
-        res.send('error has occured');
-      } else {
-        console.log(movies);
-        res.json(movies);
-      }
+// CREATE
+app.post('/', function(req, res, next) {
+  var movie = new Movie({
+    user:               req.user,
+    original_title:     req.body.original_title,
+    poster_path:        req.body.poster_path
+
+  });
+  movie.save()
+    .then(function() {
+      res.redirect('/home');
+  })
+  .catch(function(err) {
+    return next(err);
   });
 });
 
-app.get('/', function(req, res) {
-  res.send('happy to be here');
+
+// DESTROY
+app.delete('/:id', function(req, res, next) {
+    Movie.findById(req.params.id)
+        .then(function(post) {
+            if (!movie.user.equals(currentUser.id)) return next(makeError(res, 'This does not belong to you!', 401));
+            return movie.remove();
+        })
+        .then(function() {
+            res.redirect('/home');
+        })
+        .catch(function(err) {
+            return next(err);
+        });
 });
+
+
+// SHOW
+
+app.get('/:id', function(req, res, next) {
+    Movie.findById(req.params.id)
+        .then(function(post) {
+            if (!movie) {
+                return next(makeError(res, 'Document not found', 404));
+            }
+            res.render('movies/show', {
+                movie: movie
+            });
+        })
+        .catch(function(err) {
+            return next(err);
+        });
+});
+
+
 
 
 // catch 404 and forward to error handler

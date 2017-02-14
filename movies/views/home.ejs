@@ -8,7 +8,26 @@
 
 <h3>Movie List</h3>
 
-<a href="/new" class="btn btn-primary">Add A New Movie</a>
+<a href="/search" class="btn btn-primary">Add A New Movie</a>
+
+<h1> fuck this </h1>
+
+
+<% movies.forEach(function(movie) { %>
+  <div>
+    <h4><%= movie.original_title %></h4>
+    <h4><img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path %>" ></h4>
+
+    <form method="post" action="/home/<%= movie._id %>?_method=DELETE">
+    <button type="submit">delete</button>
+    </form>
+
+    <a href='/home/<%= movie._id %>' >LINK</a>
+  </div>
+<% }); %>
+
+
+
 
 <footer>
   <% include partials/footer %>
