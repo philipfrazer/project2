@@ -36,7 +36,6 @@ mongoose.connection.once('open', function() {
   console.log("Mongoose has connected to MongoDB!");
 });
 
-
 var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
