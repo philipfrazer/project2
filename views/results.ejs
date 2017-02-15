@@ -6,30 +6,32 @@
   <% include partials/header %>
 </header>
 
-<h3>Search Results</h3>
+<div class="container">
+  <div>
+    <h3>Search Results:</h3>
 
+  <!-- NEW TRIAL RENDER -->
+    <ul>
+      <% data["results"].forEach(function(movie) { %>
 
-<!-- NEW TRIAL RENDER -->
-<ul>
-  <% data["results"].forEach(function(movie) { %>
-    <div class="container">
-      <div>
-        <li>
-          <form action="/" method="post">
+          <div>
+            <li>
+              <form action="/" method="post">
 
-              <label for="Title"><h5><%= movie["original_title"]%></h5></label><br>
-              <input type="hidden" name="original_title" value="<%= movie["original_title"]%>">
+                  <label for="Title"><h5><%= movie["original_title"]%></h5></label><br>
+                  <input type="hidden" name="original_title" value="<%= movie["original_title"]%>">
 
-              <label for="Poster"><img src="https://image.tmdb.org/t/p/w500<%= movie["poster_path"]%>" ></label><br>
-              <input type="hidden" name="poster_path" value="<%= movie["poster_path"]%>">
-              <br>
-              <button type="submit" class="btn1 btn waves-effect waves-light"> Save </button>
-          </form>
-        </li>
-      </div>
-    </div>
-  <% }) %>
-</ul>
+                  <label for="Poster"><img src="https://image.tmdb.org/t/p/w500<%= movie["poster_path"]%>" ></label><br>
+                  <input type="hidden" name="poster_path" value="<%= movie["poster_path"]%>">
+                  <br>
+                  <button type="submit" class="btn1 btn waves-effect waves-light"> Save </button>
+              </form>
+            </li>
+          </div>
+      <% }) %>
+    </ul>
+  </div>
+</div>
 
 
 <div class="container">
