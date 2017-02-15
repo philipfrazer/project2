@@ -1,6 +1,6 @@
 var express               = require('express');
 var path                  = require('path');
-var favicon               = require('serve-favicon');
+//var favicon               = require('serve-favicon');
 var logger                = require('morgan');
 var cookieParser          = require('cookie-parser');
 var bodyParser            = require('body-parser');
@@ -55,8 +55,8 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 // uncomment after placing your favicon in /public
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-// app.use(express.favicon(__dirname + '/public/images/favicon.ico'));
+// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
 app.use(methodOverride('_method'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
